@@ -34,7 +34,7 @@ app.get('/users', async (request, response) => {
         const result = await pool.query(query);
         response.status(200).json(result.rows);
     } catch(error){
-        response.status(500).json({"message": "error"});
+        response.status(500).json({"message": error.message});
     }
 });
 
@@ -51,7 +51,7 @@ app.get('/users/:username', async (request, response) => {
 });
 
 app.get('/protected_users/:username', async (request, response) => {
-    let username = request.params.username.toString();
+    let username = request.params.username;
     try{
         const query = `SELECT * FROM users WHERE username=${escape.literal(username)}`;
         console.log(query);
